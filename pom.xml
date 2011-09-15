@@ -38,8 +38,10 @@
     with patch...
     https://issues.apache.org/jira/browse/COCOON-2217
     This is deployed to fix issues with streams not closing
-    we cannot use cocoon-servlet0service-impl 1.1.0 or 1.2.0
+    we cannot use cocoon-servlet-service-impl 1.1.0 or 1.2.0
     as they break block deployment.
+    More recently, patches were applied to try and resolve
+      http://jira.dspace.org/jira/browse/DS-768.
   </description>
   <url>http://cocoon.apache.org/${docs.m.servlet-service-impl.relPath}</url>
 
@@ -156,67 +158,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>https://svn.apache.org/repos/asf/cocoon/tags/cocoon-servlet-service/${project.artifactId}</tagBase>
-        </configuration>
-      </plugin>
-    </plugins>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>.</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>LICENSE.txt</include>
-          <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-    </resources>
-  </build>
-
-  <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-servlet-service/cocoon-servlet-service-impl/cocoon-servlet-service-impl-1.0.0</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-servlet-service/cocoon-servlet-service-impl/cocoon-servlet-service-impl-1.0.0</developerConnection>
-    <url>https://svn.apache.org/repos/asf/cocoon/tags/cocoon-servlet-service/cocoon-servlet-service-impl/cocoon-servlet-service-impl-1.0.0</url>
-  </scm>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>project-team</report>
-              <report>dependencies</report>
-              <report>license</report>
-              <report>summary</report>
-              <report>index</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
 
     
 </project>
