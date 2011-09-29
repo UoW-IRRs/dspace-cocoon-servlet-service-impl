@@ -265,8 +265,8 @@
 
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</developerConnection>
-    <url>https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</url>
+    <connection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</connection>
+    <developerConnection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</developerConnection>
+    <url>https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</url>
   </scm>
 </project>
