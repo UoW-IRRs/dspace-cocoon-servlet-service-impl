@@ -264,4 +264,9 @@
     </dependencies>
 
 
+  <scm>
+    <connection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</connection>
+    <developerConnection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</developerConnection>
+    <url>https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</url>
+  </scm>
 </project>
