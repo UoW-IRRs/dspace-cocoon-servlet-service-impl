@@ -18,8 +18,7 @@
   under the License.
 -->
 <!-- Id: pom.xml 638085 2008-03-17 22:01:25Z reinhard $ -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -30,7 +29,7 @@
     <groupId>org.dspace.dependencies.cocoon</groupId>
     <artifactId>dspace-cocoon-servlet-service-impl</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>Repackaged Cocoon Servlet Service Implementation</name>
     <description>
         This is version of the cocoon servlet service with patched as
@@ -264,4 +263,10 @@
     </dependencies>
 
 
+
+  <scm>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</developerConnection>
+    <url>https://svn.apache.org/repos/asf/cocoon/tags/cocoon-2.2/dspace-cocoon-servlet-service-impl/dspace-cocoon-servlet-service-impl-1.0.2</url>
+  </scm>
 </project>
