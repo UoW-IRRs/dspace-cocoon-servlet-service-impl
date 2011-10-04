@@ -54,6 +54,46 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>http://scm.dspace.org/svn/repo/licenses/LICENSE_HEADER</header>
+                    <!--Use all default exclusions for IDE files & Maven files, see:
+                        http://code.google.com/p/maven-license-plugin/wiki/Configuration#Default_excludes -->
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <!-- Add some default DSpace exclusions not covered by <useDefaultExcludes>
+                         Individual Maven projects may choose to override these defaults. -->
+                    <excludes>
+                        <!-- exclude all -->
+                        <exclude>**</exclude>
+                    </excludes>
+                    <mapping>
+                        <!-- Custom DSpace file extensions which are not recognized by maven-release-plugin:
+                             *.xmap, *.xslt, *.LICENSE -->
+                        <xmap>XML_STYLE</xmap>
+                        <xslt>XML_STYLE</xslt>
+                        <LICENSE>TEXT</LICENSE>
+                    </mapping>
+                    <encoding>UTF-8</encoding>
+                    <!-- maven-license-plugin recommends a strict check (e.g. check spaces/tabs too) -->
+                    <strictCheck>true</strictCheck>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-headers</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.apache.cocoon</groupId>
