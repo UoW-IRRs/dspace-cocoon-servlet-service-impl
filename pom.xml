@@ -31,7 +31,7 @@
     <groupId>org.dspace.dependencies.cocoon</groupId>
     <artifactId>dspace-cocoon-servlet-service-impl</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>Repackaged Cocoon Servlet Service Implementation</name>
     <description>
         This is version of the cocoon servlet service with patched as
