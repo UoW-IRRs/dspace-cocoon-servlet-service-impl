@@ -31,7 +31,7 @@
     <groupId>org.dspace.dependencies.cocoon</groupId>
     <artifactId>dspace-cocoon-servlet-service-impl</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>Repackaged Cocoon Servlet Service Implementation</name>
     <description>
         This is version of the cocoon servlet service with patched as
@@ -270,9 +270,9 @@
 
 
   <scm>
-    <connection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</connection>
-    <developerConnection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</developerConnection>
-    <url>https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</url>
+    <connection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</connection>
+    <developerConnection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</developerConnection>
+    <url>https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/tags/dspace-cocoon-servlet-service-impl-1.0.2</url>
   </scm>
 
 </project>
