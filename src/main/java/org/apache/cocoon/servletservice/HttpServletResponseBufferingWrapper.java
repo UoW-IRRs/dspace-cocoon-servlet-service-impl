@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  *     acts completely transparently by forwarding all method calls to wrapped response object.</li>
  * <li>If status code has been set to <code>404</code> then this class acts like a buffer. It buffers all method calls 
  *     that would commit wrapped response. Buffering of such calls is being performed in order to assure that wrapped 
- *     response can be always reseted if needed. It's worth mentioning the fact that buffer for {@link java.io.OutputStream}
+ *     response can be always reseted if needed. It's worth mentioning the fact that buffer for {@link OutputStream}
  *     returned by {@link #getOutputStream()} is limited to the size specified in
  *     {@link #BUFFER_LIMIT} field.</li>
  *
@@ -61,7 +61,7 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
     private int statusCode;
     private boolean sendError;
 
-    private LimitingServletOutputStream outputStream;
+    private ForwardingOrLimitingServletOutputStream outputStream;
     private PrintWriter printWriter;
 
     public HttpServletResponseBufferingWrapper(HttpServletResponse response) {
@@ -162,28 +162,18 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
     }
 
     public ServletOutputStream getOutputStream() throws IOException {
-        if (!bufferResponse) {
-            return super.getOutputStream();
-        } else {
-            if (outputStream == null)
-                outputStream = new LimitingServletOutputStream(BUFFER_LIMIT);
-            committed = true;
-            return outputStream;
-        }
+        if (outputStream == null)
+            this.outputStream = new ForwardingOrLimitingServletOutputStream(BUFFER_LIMIT, super.getOutputStream());
+        return outputStream;
     }
 
     public PrintWriter getWriter() throws IOException {
-        if (!bufferResponse)
-            return super.getWriter();
-        else {
-            if (this.outputStream != null)
-                throw new IllegalStateException(
-                        "Output buffer has been already obtained. You can use either output buffer or print writer at one time.");
-            if (this.printWriter == null)
-                this.printWriter = new PrintWriter(new OutputStreamWriter(
-                        getOutputStream(), getCharacterEncoding()));
-            return printWriter;
-        }
+        if (this.outputStream != null)
+            throw new IllegalStateException(
+                    "Output buffer has been already obtained. You can use either output buffer or print writer at one time.");
+        if (this.printWriter == null)
+            this.printWriter = new PrintWriter(new OutputStreamWriter(getOutputStream(), getCharacterEncoding()));
+        return printWriter;
     }
 
     public void flushBuffer() throws IOException {
@@ -209,6 +199,7 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
     public void reset() {
         if (isCommitted())
             throw new IllegalStateException(ALREADY_COMMITTED_EXCEPTION);
+        super.reset();
         bufferResponse = false;
         message = null;
     }
@@ -234,18 +225,19 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
                 else
                     super.setStatus(SC_NOT_FOUND);
             }
-
-            if (this.printWriter != null) {
-                if (this.printWriter.checkError())
-                    throw new IOException(
-                            "Error occured while writing to printWriter.");
-                this.printWriter.close();
-            }
-            
-            if (outputStream != null ) {
-            	outputStream.writeTo(super.getOutputStream());
-            }
         }
+        
+        //since all data goes through ForwardingOrLimitingServletOutputStream then flushing
+        //must be performed in *every* case now
+        if (this.printWriter != null) {
+            if (this.printWriter.checkError())
+                throw new IOException(
+                        "Error occured while writing to printWriter.");
+            this.printWriter.close();
+        } else if (outputStream != null)
+            outputStream.writeTo(super.getOutputStream());
+        
+        super.flushBuffer();
     }
 
     public void resetBufferedResponse() {
@@ -264,31 +256,40 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
     }
 
     /**
-     * Simple class acting like a {@link ServletOutputStream} but limiting number of bytes that can be written to the 
-     * stream.
+     * Simple class acting like a {@link ServletOutputStream} but limiting (if it does not forward) number of bytes that 
+     * can be written to the stream.
      */
-    private class LimitingServletOutputStream extends ServletOutputStream {
+    private class ForwardingOrLimitingServletOutputStream extends ServletOutputStream {
         
         private Log log = LogFactory.getLog(getClass());
 
         private int writeLimit;
         private ByteArrayOutputStream outputStream;
+        
+        private OutputStream forwardTo;
 
-        public LimitingServletOutputStream(int writeLimit) {
+        public ForwardingOrLimitingServletOutputStream(int writeLimit, OutputStream forwardTo) {
             this.writeLimit = writeLimit;
+            this.forwardTo = forwardTo;
             reset();
         }
 
         public void write(int b) throws IOException {
-            if (this.outputStream.size() < this.writeLimit)
-                this.outputStream.write(b);
+            HttpServletResponseBufferingWrapper.this.committed = true;
+            
+            if (isForwarding())
+                forwardTo.write(b);
             else {
-                RuntimeException e = new RuntimeException(
-                        "The buffering limit (" + writeLimit+ ") has been reached. If you encounter this exception it means that you to "
-                        + "write a big response body for response that has error code set as status code. This is always a bad "
-                        + "idea and in such case you should reconsider your design.");
-                log.fatal("Fatal error occured in writing to response", e);
-                throw e;
+                if (this.outputStream.size() < this.writeLimit)
+                    this.outputStream.write(b);
+                else {
+                    RuntimeException e = new RuntimeException(
+                            "The buffering limit (" + writeLimit+ ") has been reached. If you encounter this exception it means that you to "
+                            + "write a big response body for response that has error code set as status code. This is always a bad "
+                            + "idea and in such case you should reconsider your design.");
+                    log.fatal("Fatal error occured in writing to response", e);
+                    throw e;
+                }
             }
         }
 
@@ -297,7 +298,12 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
         }
 
         public void writeTo(OutputStream outputStream) throws IOException {
-            this.outputStream.writeTo(outputStream);
+            if (this.outputStream.size() > 0)
+                this.outputStream.writeTo(outputStream);
+        }
+        
+        private boolean isForwarding() {
+            return !HttpServletResponseBufferingWrapper.this.bufferResponse;
         }
 
     }

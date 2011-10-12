@@ -45,11 +45,9 @@
         More recently, patches were applied to try and resolve
         http://jira.dspace.org/jira/browse/DS-768.
     </description>
-    <url>http://cocoon.apache.org/${docs.m.servlet-service-impl.relPath}</url>
 
     <properties>
         <docs.name>${project.name}</docs.name>
-        <docs.version>${docs.m.servlet-service-impl.version}</docs.version>
         <docs.urlRelativizer>../../../../../</docs.urlRelativizer>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
