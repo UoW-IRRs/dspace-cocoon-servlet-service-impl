@@ -190,10 +190,9 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
     public void resetBuffer() {
         if (isCommitted())
             throw new IllegalStateException(ALREADY_COMMITTED_EXCEPTION);
-        if (!bufferResponse)
+        if (!bufferResponse) {
             super.resetBuffer();
-        else if (outputStream != null)
-            outputStream.reset();
+		}
     }
 
     public void reset() {
@@ -238,6 +237,10 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
             outputStream.writeTo(super.getOutputStream());
         
         super.flushBuffer();
+
+		if (outputStream != null) {
+            outputStream.reset();
+        }
     }
 
     public void resetBufferedResponse() {
@@ -248,6 +251,10 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
             bufferResponse = false;
             committed = false;
             sendError = false;
+
+			if (outputStream != null) {
+                outputStream.reset();
+            }
         }
     }
 
@@ -280,6 +287,9 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
             if (isForwarding())
                 forwardTo.write(b);
             else {
+                if (outputStream == null) {
+                    outputStream = new ByteArrayOutputStream(writeLimit);
+                }
                 if (this.outputStream.size() < this.writeLimit)
                     this.outputStream.write(b);
                 else {
@@ -294,11 +304,11 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
         }
 
         public void reset() {
-            this.outputStream = new ByteArrayOutputStream(writeLimit);
+            this.outputStream = null;
         }
 
         public void writeTo(OutputStream outputStream) throws IOException {
-            if (this.outputStream.size() > 0)
+            if (this.outputStream != null && this.outputStream.size() > 0)
                 this.outputStream.writeTo(outputStream);
         }
         
