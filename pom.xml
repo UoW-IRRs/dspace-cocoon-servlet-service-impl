@@ -21,13 +21,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
+<!--
     <parent>
         <artifactId>dspace-pom</artifactId>
         <groupId>org.dspace</groupId>
         <version>12</version>
     </parent>
-
+-->
     <groupId>org.dspace.dependencies.cocoon</groupId>
     <artifactId>dspace-cocoon-servlet-service-impl</artifactId>
     <packaging>jar</packaging>
@@ -55,11 +55,10 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <version>1.9.0</version>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
                 <configuration>
-                    <header>http://scm.dspace.org/svn/repo/licenses/LICENSE_HEADER</header>
+                    <header>https://raw.githubusercontent.com/DSpace/DSpace/master/LICENSE_HEADER</header>
                     <!--Use all default exclusions for IDE files & Maven files, see:
                         http://code.google.com/p/maven-license-plugin/wiki/Configuration#Default_excludes -->
                     <useDefaultExcludes>true</useDefaultExcludes>
@@ -180,9 +179,9 @@
 
 
   <scm>
-    <connection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</connection>
-    <developerConnection>scm:svn:https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</developerConnection>
-    <url>https://scm.dspace.org/svn/repo/modules/dspace-cocoon-servlet-service-impl/trunk</url>
+    <connection>scm:git:git@github.com/DSpace/dspace-cocoon-servlet-service-impl.git</connection>
+    <developerConnection>scm:git:git@github.com:DSpace/dspace-cocoon-servlet-service-impl.git</developerConnection>
+    <url>git@github.com:DSpace/dspace-cocoon-servlet-service-impl.git</url>
   </scm>
 
 </project>
